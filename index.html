@@ -1,1 +1,402 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浜田高校オープンスクール</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kaisei+Tokumin:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+            background-color: #f0f4f8;
+            color: #1e3a5f;
+        }
+        h2, h3 {
+            font-family: 'Inter', 'Noto Sans JP', sans-serif;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .text-shadow-hero {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        .bg-hamada-hero {
+            background: linear-gradient(to bottom right, #e0f2fe, #3b82f6);
+            height: 50vh;
+        }
+        .btn-primary {
+            background-color: #3b82f6;
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .card {
+            background-color: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .btn-secondary {
+            background-color: #e2e8f0;
+            color: #1e3a5f;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        .btn-secondary:hover {
+            background-color: #cbd5e1;
+        }
+        .speaker-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #3b82f6;
+            font-size: 2rem;
+            line-height: 1;
+        }
+        #loadingIndicator, #messageLoading {
+            display: none;
+            color: #3b82f6;
+            font-size: 1.2rem;
+            margin-top: 1rem;
+        }
+        .font-shuji {
+            font-family: 'Kaisei Tokumin', serif;
+        }
+    </style>
+</head>
+<body class="antialiased leading-relaxed">
+
+    <!-- Hero Section -->
+    <div class="bg-hamada-hero flex flex-col items-center justify-center text-center p-8">
+        <h1 class="text-5xl md:text-6xl font-extrabold text-white text-shadow-hero font-shuji">
+            浜田高校 オープンスクール
+        </h1>
+        <p class="mt-4 text-xl md:text-2xl font-bold text-white text-shadow-hero">
+            高校生活を体験しよう！新しい自分に出会えるチャンス
+        </p>
+        <a href="#event-details" class="mt-8 btn-primary">今すぐ申し込む</a>
+    </div>
+
+    <!-- Main Content Section -->
+    <main class="container py-16 px-4">
+        <!-- Message Section -->
+        <section class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                浜田高校へようこそ！
+                <!-- Gemini API (TTS)で音声を再生するボタン -->
+                <button id="speakBtn" class="speaker-btn">✨</button>
+            </h2>
+            <p id="welcomeText" class="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
+                浜田高校のオープンスクールでは、授業の面白さや部活動の活気、先輩たちのリアルな声を通して、高校生活の魅力をたっぷりお伝えします。友達と一緒に、または一人でも大丈夫！気軽に参加して、浜田高校の雰囲気を感じてみませんか？
+            </p>
+            <div id="loadingIndicator">音声データを準備中です...</div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            <div class="card p-6 text-center">
+                <div class="text-5xl text-blue-500 mb-4">🏫</div>
+                <h3 class="text-xl font-bold mb-2">授業体験</h3>
+                <p class="text-gray-600">
+                    高校の授業を実際に体験！興味のある分野の授業に参加して、一足先に学びの楽しさを感じてみよう。
+                </p>
+            </div>
+            <div class="card p-6 text-center">
+                <div class="text-5xl text-green-500 mb-4">⚽</div>
+                <h3 class="text-xl font-bold mb-2">部活動見学</h3>
+                <p class="text-gray-600">
+                    活気あふれる部活動を見学！先輩たちの真剣な姿や、仲間の笑顔に触れて、高校でやりたいことを見つけよう。
+                </p>
+            </div>
+            <div class="card p-6 text-center">
+                <div class="text-5xl text-yellow-500 mb-4">🤝</div>
+                <h3 class="text-xl font-bold mb-2">在校生と交流</h3>
+                <p class="text-gray-600">
+                    在校生と直接話せるフリートークタイムを用意。学校生活のこと、勉強のこと、なんでも気軽に聞いてみよう！
+                </p>
+            </div>
+        </section>
+
+        <!-- New: Gemini API (Text Generation) feature -->
+        <section class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">
+                ✨先輩からのメッセージ
+            </h2>
+            <div class="card p-6 max-w-lg mx-auto">
+                <p id="seniorMessage" class="text-lg text-gray-700 mb-4">
+                    ボタンを押すと、AIが先輩からのメッセージを生成します。
+                </p>
+                <div id="messageLoading">メッセージを生成中です...</div>
+                <button id="generateMessageBtn" class="btn-secondary">✨ AIに聞いてみる</button>
+            </div>
+        </section>
+
+        <!-- Event Details Section -->
+        <section id="event-details" class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8">
+                イベント詳細
+            </h2>
+            <div class="card p-8 inline-block text-left">
+                <div class="mb-4">
+                    <p class="text-xl font-bold mb-2">日程</p>
+                    <p class="text-gray-700">2025年10月26日(土) 9:30 - 12:00</p>
+                </div>
+                <div class="mb-4">
+                    <p class="text-xl font-bold mb-2">場所</p>
+                    <p class="text-gray-700">浜田高校 校舎</p>
+                </div>
+                <div class="mb-4">
+                    <p class="text-xl font-bold mb-2">持ち物</p>
+                    <p class="text-gray-700">上履き、筆記用具</p>
+                </div>
+                <div>
+                    <p class="text-xl font-bold mb-2">参加対象</p>
+                    <p class="text-gray-700">中学3年生</p>
+                </div>
+                <a href="#" class="mt-8 block w-full text-center btn-primary">参加登録はこちら</a>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="mb-16">
+            <h2 class="text-center text-3xl md:text-4xl font-bold mb-8">
+                浜田高校の日常
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="rounded-2xl overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/400x300/c9d7df/1e3a5f?text=部活動の様子" alt="部活動の様子" class="w-full h-auto object-cover">
+                </div>
+                <div class="rounded-2xl overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/400x300/e0e9f1/1e3a5f?text=授業風景" alt="授業風景" class="w-full h-auto object-cover">
+                </div>
+                <div class="rounded-2xl overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/400x300/f0e6d6/1e3a5f?text=文化祭" alt="文化祭" class="w-full h-auto object-cover">
+                </div>
+                <div class="rounded-2xl overflow-hidden shadow-lg transform transition-transform duration-300 hover:scale-105">
+                    <img src="https://placehold.co/400x300/d5e3f1/1e3a5f?text=生徒たち" alt="生徒たち" class="w-full h-auto object-cover">
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-blue-900 text-white py-8 text-center">
+        <div class="container">
+            <p>&copy; 2025 浜田高校 All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // 音声データをWAV形式に変換するヘルパー関数
+        function pcmToWav(pcmData, sampleRate) {
+            const numChannels = 1;
+            const bytesPerSample = 2; // SINT16
+            const blockAlign = numChannels * bytesPerSample;
+            const byteRate = sampleRate * blockAlign;
+
+            const buffer = new ArrayBuffer(44 + pcmData.byteLength);
+            const view = new DataView(buffer);
+
+            // WAV RIFF header
+            writeString(view, 0, 'RIFF');
+            view.setUint32(4, 36 + pcmData.byteLength, true);
+            writeString(view, 8, 'WAVE');
+            writeString(view, 12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, numChannels, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, byteRate, true);
+            view.setUint16(32, blockAlign, true);
+            view.setUint16(34, bytesPerSample * 8, true);
+            writeString(view, 36, 'data');
+            view.setUint32(40, pcmData.byteLength, true);
+
+            // Write PCM data
+            const pcmView = new Int16Array(pcmData);
+            for (let i = 0; i < pcmView.length; i++) {
+                view.setInt16(44 + i * 2, pcmView[i], true);
+            }
+
+            return new Blob([view], { type: 'audio/wav' });
+        }
+
+        function writeString(view, offset, string) {
+            for (let i = 0; i < string.length; i++) {
+                view.setUint8(offset + i, string.charCodeAt(i));
+            }
+        }
+
+        // Base64からArrayBufferへ変換
+        function base64ToArrayBuffer(base64) {
+            const binaryString = atob(base64);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+
+        const speakBtn = document.getElementById('speakBtn');
+        const welcomeTextElement = document.getElementById('welcomeText');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        // 音声再生機能
+        speakBtn.addEventListener('click', async () => {
+            const textToSpeak = welcomeTextElement.textContent.trim();
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+
+            loadingIndicator.style.display = 'block';
+
+            const payload = {
+                contents: [{
+                    parts: [{ text: `Say in a friendly tone: ${textToSpeak}` }]
+                }],
+                generationConfig: {
+                    responseModalities: ["AUDIO"],
+                    speechConfig: {
+                        voiceConfig: {
+                            prebuiltVoiceConfig: { voiceName: "Puck" }
+                        }
+                    }
+                },
+                model: "gemini-2.5-flash-preview-tts"
+            };
+
+            let audioUrl = null;
+            let retries = 0;
+            const maxRetries = 3;
+            const retryDelay = 1000;
+
+            while (retries < maxRetries) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (!response.ok) {
+                        if (response.status === 429) {
+                            retries++;
+                            if (retries < maxRetries) {
+                                await new Promise(res => setTimeout(res, retryDelay * Math.pow(2, retries)));
+                                continue;
+                            }
+                        }
+                        throw new Error(`API response was not ok: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    const part = result?.candidates?.[0]?.content?.parts?.[0];
+                    const audioData = part?.inlineData?.data;
+                    const mimeType = part?.inlineData?.mimeType;
+
+                    if (audioData && mimeType && mimeType.startsWith("audio/")) {
+                        const sampleRate = parseInt(mimeType.match(/rate=(\d+)/)[1], 10);
+                        const pcmData = base64ToArrayBuffer(audioData);
+                        const pcm16 = new Int16Array(pcmData);
+                        const wavBlob = pcmToWav(pcm16, sampleRate);
+                        audioUrl = URL.createObjectURL(wavBlob);
+                        break;
+                    } else {
+                        throw new Error("Invalid audio data from API.");
+                    }
+                } catch (error) {
+                    console.error('Error fetching audio:', error);
+                    break;
+                }
+            }
+
+            loadingIndicator.style.display = 'none';
+            if (audioUrl) {
+                const audio = new Audio(audioUrl);
+                audio.play();
+                audio.onended = () => URL.revokeObjectURL(audioUrl);
+            }
+        });
+
+        const generateMessageBtn = document.getElementById('generateMessageBtn');
+        const seniorMessageElement = document.getElementById('seniorMessage');
+        const messageLoading = document.getElementById('messageLoading');
+
+        // メッセージ生成機能
+        generateMessageBtn.addEventListener('click', async () => {
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+            
+            messageLoading.style.display = 'block';
+            seniorMessageElement.textContent = ''; // メッセージをクリア
+
+            const systemPrompt = `あなたは浜田高校の在校生です。中学生のオープンスクール参加者に向けて、高校生活の楽しさや魅力を伝える励ましのメッセージを100文字以内で作成してください。敬体でお願いします。`;
+            const userQuery = `オープンスクール参加者へのメッセージを作成してください。`;
+
+            const payload = {
+                contents: [{ parts: [{ text: userQuery }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] },
+            };
+
+            let generatedText = "メッセージの生成に失敗しました。もう一度お試しください。";
+            let retries = 0;
+            const maxRetries = 3;
+            const retryDelay = 1000;
+
+            while (retries < maxRetries) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                         if (response.status === 429) {
+                            retries++;
+                            if (retries < maxRetries) {
+                                await new Promise(res => setTimeout(res, retryDelay * Math.pow(2, retries)));
+                                continue;
+                            }
+                        }
+                        throw new Error(`API response was not ok: ${response.status}`);
+                    }
+                    
+                    const result = await response.json();
+                    const text = result?.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (text) {
+                        generatedText = text;
+                        break;
+                    } else {
+                        throw new Error("Invalid response from API.");
+                    }
+                } catch (error) {
+                    console.error('Error generating message:', error);
+                    break;
+                }
+            }
+
+            messageLoading.style.display = 'none';
+            seniorMessageElement.textContent = generatedText;
+        });
+    </script>
+</body>
+</html>
 
